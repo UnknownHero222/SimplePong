@@ -3,6 +3,7 @@
 
 #include "ball.h"
 #include "bat.h"
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 class Engine {
@@ -13,12 +14,10 @@ class Engine {
   void start();
 
  private:
-  void update();
-  void draw();
+  sf::RenderWindow window_;
 
- private:
-  Bat game_bat_;
-  Ball game_ball_;
+  std::unique_ptr<Bat> game_bat_;
+  std::unique_ptr<Ball> game_ball_;
 };
 
 #endif//SIMPLEPONG__ENGINE_H_
