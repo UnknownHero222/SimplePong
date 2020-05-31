@@ -10,6 +10,11 @@ constexpr int kBatHeightLevel = 50;
 Engine::Engine() {
   window_.create(sf::VideoMode(kWindowWidth, kWindowHeight), "Pong");
 
+  sf::Image game_icon;
+  game_icon.loadFromFile("icons/ping-pong-bat.png");
+  window_.setIcon(game_icon.getSize().x, game_icon.getSize().y,
+                  game_icon.getPixelsPtr());
+
   game_bat_ =
       std::make_unique<Bat>(kWindowWidth / 2, kWindowHeight - kBatHeightLevel);
   game_ball_ = std::make_unique<Ball>(kWindowWidth / 2, kBallStarPos);
@@ -57,9 +62,7 @@ void Engine::check_gameplay() {
   }
 
   auto game_bat_width = game_bat_->get_position().width;
-  if (game_bat_->get_position().left < 0) {
-    game_bat_->stop_move_left();
-  }
+  if (game_bat_->get_position().left < 0) { game_bat_->stop_move_left(); }
 
   if (kWindowWidth < game_bat_->get_position().left + game_bat_width) {
     game_bat_->stop_move_right(kWindowWidth);
