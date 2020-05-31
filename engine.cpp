@@ -1,4 +1,5 @@
 #include "engine.h"
+#include <SFML/Audio.hpp>
 #include <sstream>
 
 constexpr int kWindowWidth = 1024;
@@ -20,6 +21,11 @@ Engine::Engine() : user_lives_{kUserLives}, user_scores_{0} {
   game_bat_ =
       std::make_unique<Bat>(kWindowWidth / 2, kWindowHeight - kBatHeightLevel);
   game_ball_ = std::make_unique<Ball>(kWindowWidth / 2, kBallStarPos);
+
+  sf::Listener::setPosition(10.f, 0.f, 5.f);
+  sf::Listener::setDirection(1.f, 0.f, 0.f);
+  sf::Listener::setUpVector(1.f, 1.f, 0.f);
+  sf::Listener::setGlobalVolume(50.f);
 }
 
 /******************************************************************/
@@ -67,6 +73,7 @@ void Engine::check_gameplay() {
       user_lives_ = kUserLives;
       user_scores_ = 0;
     }
+    play_sound("sounds/lose.wav");
     game_ball_->hit_bottom();
   }
   if (game_ball_->get_position().top < 0) { game_ball_->rebound_bat_or_top(); }
@@ -105,6 +112,20 @@ void Engine::draw() {
   window_.draw(score_text_);
 
   window_.display();
+}
+
+/******************************************************************/
+
+void Engine::play_sound(const std::string &sound_path) {
+  sf::Sound game_sound;
+  game_sound.setPosition(0.f, 0.f, 0.f);
+  game_sound.setRelativeToListener(true);
+  sf::SoundBuffer buffer;
+
+  if (buffer.loadFromFile(sound_path)) {
+    game_sound.setBuffer(buffer);
+    game_sound.play();
+  }
 }
 
 /******************************************************************/

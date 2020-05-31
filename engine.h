@@ -19,6 +19,8 @@ class Engine {
   void draw();
   void update();
 
+  void play_sound(const std::string &sound_path);
+
  private:
   sf::RenderWindow window_;
 
