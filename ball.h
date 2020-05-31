@@ -26,8 +26,8 @@ class Ball {
 
   RectangleShape ball_shape_;
 
-  float x_velocity = .1f;
-  float y_velocity = .1f;
+  float x_velocity = .2f;
+  float y_velocity = .2f;
 };
 
 #endif//SIMPLEPONG__BALL_H_

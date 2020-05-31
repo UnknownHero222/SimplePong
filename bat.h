@@ -25,7 +25,7 @@ class Bat {
 
   RectangleShape bat_shape_;
 
-  float bat_speed_ = .3f;
+  float bat_speed_ = .5f;
 };
 
 #endif//SIMPLEPONG__BAT_H_
