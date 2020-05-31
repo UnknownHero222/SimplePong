@@ -9,7 +9,7 @@ constexpr int kWindowWidth = 1024;
 constexpr int kWindowHeight = 768;
 
 int main() {
-  sf::RenderWindow window(sf::VideoMode(kWindowHeight, kWindowHeight), "Pong");
+  sf::RenderWindow window(sf::VideoMode(kWindowWidth, kWindowHeight), "Pong");
 
   Bat bat(kWindowWidth / 2, kWindowHeight - 30);
   Ball ball(kWindowWidth / 2, 1);
@@ -17,8 +17,7 @@ int main() {
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed)
-        window.close();
+      if (event.type == sf::Event::Closed) window.close();
     }
     if (Keyboard::isKeyPressed(Keyboard::A)) {
       bat.move_left();
