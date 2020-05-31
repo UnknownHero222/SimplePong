@@ -31,30 +31,48 @@ void Engine::start() {
       window_.close();
     }
 
-    if (game_ball_->get_position().top > kWindowHeight) {
-      game_ball_->hit_bottom();
-    }
-    if (game_ball_->get_position().top < 0) {
-      game_ball_->rebound_bat_or_top();
-    }
+    check_gameplay();
 
-    if (game_ball_->get_position().left < 0
-        || kWindowWidth < game_ball_->get_position().left + 10) {
-      game_ball_->rebound_sides();
-    }
-    if (game_ball_->get_position().intersects(game_bat_->get_position())) {
-      game_ball_->rebound_bat_or_top();
-    }
+    update();
 
-    game_ball_->update();
-    game_bat_->update();
-
-    window_.clear(Color(26, 128, 182, 255));
-    window_.draw(game_bat_->get_shape());
-    window_.draw(game_ball_->get_shape());
-
-    window_.display();
+    draw();
   }
+}
+
+/******************************************************************/
+
+void Engine::check_gameplay() {
+  if (game_ball_->get_position().top > kWindowHeight) {
+    game_ball_->hit_bottom();
+  }
+  if (game_ball_->get_position().top < 0) {
+    game_ball_->rebound_bat_or_top();
+  }
+
+  if (game_ball_->get_position().left < 0
+      || kWindowWidth < game_ball_->get_position().left + 10) {
+    game_ball_->rebound_sides();
+  }
+  if (game_ball_->get_position().intersects(game_bat_->get_position())) {
+    game_ball_->rebound_bat_or_top();
+  }
+}
+
+/******************************************************************/
+
+void Engine::update() {
+  game_ball_->update();
+  game_bat_->update();
+}
+
+/******************************************************************/
+
+void Engine::draw() {
+  window_.clear(Color(26, 128, 182, 255));
+  window_.draw(game_bat_->get_shape());
+  window_.draw(game_ball_->get_shape());
+
+  window_.display();
 }
 
 /******************************************************************/

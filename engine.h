@@ -14,6 +14,11 @@ class Engine {
   void start();
 
  private:
+  void check_gameplay();
+  void draw();
+  void update();
+
+ private:
   sf::RenderWindow window_;
 
   std::unique_ptr<Bat> game_bat_;
