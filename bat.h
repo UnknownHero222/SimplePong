@@ -15,6 +15,8 @@ class Bat {
 
   void move_right();
   void move_left();
+  void stop_move_right(int x_max);
+  void stop_move_left();
 
   void update();
 

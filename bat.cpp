@@ -36,6 +36,18 @@ void Bat::move_left() {
 
 /******************************************************************/
 
+void Bat::stop_move_right(int x_max) {
+  position_.x = x_max - bat_shape_.getGlobalBounds().width;
+}
+
+/******************************************************************/
+
+void Bat::stop_move_left() {
+  position_.x = 0;
+}
+
+/******************************************************************/
+
 void Bat::update() {
   bat_shape_.setPosition(position_);
 }

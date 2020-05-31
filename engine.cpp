@@ -45,16 +45,24 @@ void Engine::check_gameplay() {
   if (game_ball_->get_position().top > kWindowHeight) {
     game_ball_->hit_bottom();
   }
-  if (game_ball_->get_position().top < 0) {
-    game_ball_->rebound_bat_or_top();
-  }
+  if (game_ball_->get_position().top < 0) { game_ball_->rebound_bat_or_top(); }
 
+  auto game_ball_width = game_ball_->get_position().width;
   if (game_ball_->get_position().left < 0
-      || kWindowWidth < game_ball_->get_position().left + 10) {
+      || kWindowWidth < game_ball_->get_position().left + game_ball_width) {
     game_ball_->rebound_sides();
   }
   if (game_ball_->get_position().intersects(game_bat_->get_position())) {
     game_ball_->rebound_bat_or_top();
+  }
+
+  auto game_bat_width = game_bat_->get_position().width;
+  if (game_bat_->get_position().left < 0) {
+    game_bat_->stop_move_left();
+  }
+
+  if (kWindowWidth < game_bat_->get_position().left + game_bat_width) {
+    game_bat_->stop_move_right(kWindowWidth);
   }
 }
 
