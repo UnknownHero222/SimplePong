@@ -1,13 +1,15 @@
 #include "engine.h"
+#include <sstream>
 
 constexpr int kWindowWidth = 1024;
 constexpr int kWindowHeight = 768;
 constexpr int kBallStarPos = 1;
-constexpr int kBatHeightLevel = 50;
+constexpr int kBatHeightLevel = 200;
+constexpr int kUserLives = 3;
 
 /******************************************************************/
 
-Engine::Engine() {
+Engine::Engine() : user_lives_{kUserLives}, user_scores_{0} {
   window_.create(sf::VideoMode(kWindowWidth, kWindowHeight), "Pong");
 
   sf::Image game_icon;
@@ -38,7 +40,19 @@ void Engine::start() {
 
     check_gameplay();
 
+    score_text_.setPosition(50, 710);
+    Font font;
+    font.loadFromFile("resources/game_text.ttf");
+    score_text_.setFont(font);
+    score_text_.setCharacterSize(20);
+    score_text_.setFillColor(sf::Color::White);
+
     update();
+
+    std::stringstream ss;
+    ss << "SCORE: " << std::to_string(user_scores_)
+       << "\tLIVES: " << std::to_string(user_lives_) << std::endl;
+    score_text_.setString(ss.str());
 
     draw();
   }
@@ -48,6 +62,11 @@ void Engine::start() {
 
 void Engine::check_gameplay() {
   if (game_ball_->get_position().top > kWindowHeight) {
+    user_lives_--;
+    if (user_lives_ == 0) {
+      user_lives_ = kUserLives;
+      user_scores_ = 0;
+    }
     game_ball_->hit_bottom();
   }
   if (game_ball_->get_position().top < 0) { game_ball_->rebound_bat_or_top(); }
@@ -59,6 +78,7 @@ void Engine::check_gameplay() {
   }
   if (game_ball_->get_position().intersects(game_bat_->get_position())) {
     game_ball_->rebound_bat_or_top();
+    user_scores_++;
   }
 
   auto game_bat_width = game_bat_->get_position().width;
@@ -82,6 +102,7 @@ void Engine::draw() {
   window_.clear(Color(26, 128, 182, 255));
   window_.draw(game_bat_->get_shape());
   window_.draw(game_ball_->get_shape());
+  window_.draw(score_text_);
 
   window_.display();
 }

@@ -3,8 +3,9 @@
 
 #include "ball.h"
 #include "bat.h"
-#include <memory>
 #include <SFML/Graphics.hpp>
+#include <cstdint>
+#include <memory>
 
 class Engine {
  public:
@@ -23,6 +24,11 @@ class Engine {
 
   std::unique_ptr<Bat> game_bat_;
   std::unique_ptr<Ball> game_ball_;
+
+  Text score_text_;
+
+  uint8_t user_lives_;
+  uint64_t user_scores_;
 };
 
 #endif//SIMPLEPONG__ENGINE_H_
